@@ -1,6 +1,6 @@
-import { Route as rootRoute } from "./routes/_root";
-import { Route as AuthenticatedRouteImport } from "./routes/_authenticated/route";
 import { Route as AuthenticatedIndexImport } from "./routes/_authenticated/index";
+import { Route as AuthenticatedRouteImport } from "./routes/_authenticated/route";
+import { Route as rootRoute } from "./routes/_root";
 
 const AuthenticatedRouteRoute = AuthenticatedRouteImport.update({
   id: "/_authenticated",

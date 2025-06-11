@@ -1,0 +1,40 @@
+name: Code Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
+concurrency:
+  group: ${{ github.job }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: ⬣ ESLint, ʦ TypeScript, 💅 Biome, and 🏗️ Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: 📥 Download deps
+        run: yarn install --frozen-lockfile
+
+      - name: 🔬 ESLint
+        run: yarn lint
+
+      - name: 🎨 Biome
+        run: yarn biome check .
+
+      - name: 🔎 Type check
+        run: yarn tsc --noEmit
+
+      - name: 🏗️ Build
+        run: yarn build
