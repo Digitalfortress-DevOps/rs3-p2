@@ -23,7 +23,8 @@ export default tseslint.config(
       "*.config.json",
       "tsconfig.app.json",
       "tsconfig.json",
-      "tsconfig.node.json"
+      "tsconfig.node.json",
+      "components.json"
     ]
   },
   {
