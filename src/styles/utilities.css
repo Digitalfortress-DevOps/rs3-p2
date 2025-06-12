@@ -1,0 +1,49 @@
+@layer utilities {
+  /* Headings */
+  .h1 {
+    @apply text-7xl leading-[80px] tracking-[-2%];
+  }
+  .h2 {
+    @apply text-[64px] leading-[76px] tracking-[-2%];
+  }
+  .h3 {
+    @apply text-5xl tracking-[-2%];
+  }
+  .h4 {
+    @apply text-4xl tracking-[-2%];
+  }
+  .h5 {
+    @apply text-[30px] tracking-[-2%];
+  }
+  .h6 {
+    @apply text-2xl tracking-[-2%];
+  }
+
+  /* Text sizes */
+  .t-xl {
+    @apply text-[20px] tracking-[-2%];
+  }
+  .t-l {
+    @apply text-lg tracking-[-2%];
+  }
+  .t-m {
+    @apply text-base tracking-[-2%];
+  }
+  .t-s {
+    @apply text-sm tracking-[-2%];
+  }
+  .t-xs {
+    @apply text-xs tracking-[-2%];
+  }
+  .t-2xs {
+    @apply text-[10px] tracking-[-2%];
+  }
+
+  /* Layout */
+  .row {
+    @apply flex flex-row;
+  }
+  .col {
+    @apply flex flex-col;
+  }
+}

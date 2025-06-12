@@ -1,3 +1,3 @@
 export function AuthenticatedLayout() {
-  return <div>Hello</div>;
+  return <div className="font-bold text-2xl text-chart-2">Hello</div>;
 }
