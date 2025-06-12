@@ -1,210 +1,81 @@
-import { Route as AuthenticatedIndexRouteImport } from "./routes/_authenticated/index";
-import { Route as AuthenticatedRouteImport } from "./routes/_authenticated/route";
-import { Route as RootRouteImport } from "./routes/_root";
-import { Route as AdminIndexRouteImport } from "./routes/admin/index";
-import { Route as AdminRouteImport } from "./routes/admin/route";
-import { Route as ClientIndexRouteImport } from "./routes/client/index";
-import { Route as ClientRouteImport } from "./routes/client/route";
+/**
+ * ? This file is the root of the routes.
+ * ? It is the child of the root route.
+ * ? If you need to protected routes, you need to add the auth middleware to the route.
+ */
 
-// Root Route
-const rootRoute = RootRouteImport;
+/**
+ * ? How to define a route for the page?
+ * ? 1. Define a feature folder in the src/features folder.
+ * ? 2. Define a route file in the routes folder. ex: src/features/(admin)/(authenticated)/dashboard/routes/index.tsx
+ * ? 3. Import the route in the src/routerTree.gen.ts file. ex: import { Route as adminDashboardRouteImport } from "./features/(admin)/(authenticated)/dashboard/routes"
+ * ? 4. Update the route with the update function. ex: const adminDashboardRoute = adminDashboardRouteImport.update({...})
+ * ? 5. Add the type of the route to the AdminRouteChildren object. ex: adminDashboardRoute: typeof adminDashboardRoute
+ * ? 6. Add the route to the rootAdminRouteChildren object. ex: const rootAdminRouteChildren: AdminRouteChildren = { adminDashboardRoute, ... }
+ * ? 7. Add the route to the routeTree object. ex: export const routeTree = rootRoute._addFileChildren({ ...rootAdminRouteChildren })._addFileTypes()
+ */
 
-// Authenticated Routes
-const authenticatedRoute = AuthenticatedRouteImport.update({
-  id: "/_authenticated",
+//#region Root Route (This is step 3)
+import { Route as rootRoute } from "./_root"
+import { Route as adminDashboardRouteImport } from "./features/(admin)/(authenticated)/dashboard/routes"
+import { Route as adminLoginRouteImport } from "./features/(admin)/(unauthenticated)/login/routes"
+//#endregion Root Route
+
+//#region Admin Routers (This is step 4 & 6)
+const adminDashboardRoute = adminDashboardRouteImport.update({
+  id: "/(admin)/dashboard",
+  path: "/dashboard",
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
-const authenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: "/_authenticated/",
-  path: "/",
-  getParentRoute: () => authenticatedRoute,
-} as any);
-
-// Admin Routes
-const adminRoute = AdminRouteImport.update({
-  id: "/admin",
+const adminLoginRoute = adminLoginRouteImport.update({
+  id: "/(admin)/login",
+  path: "/login",
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
-const adminIndexRoute = AdminIndexRouteImport.update({
-  id: "/admin/",
-  path: "/",
-  getParentRoute: () => adminRoute,
-} as any);
+const rootAdminRouteChildren: AdminRouteChildren = {
+  adminDashboardRoute,
+  adminLoginRoute,
+}
+//#endregion Admin Routers
 
-// Client Routes
-const clientRoute = ClientRouteImport.update({
-  id: "/client",
-  getParentRoute: () => rootRoute,
-} as any);
+export const routeTree = rootRoute
+  ._addFileChildren({
+    ...rootAdminRouteChildren,
+  })
+  ._addFileTypes()
 
-const clientIndexRoute = ClientIndexRouteImport.update({
-  id: "/client/",
-  path: "/",
-  getParentRoute: () => clientRoute,
-} as any);
+//#region Admin Route Children (This is step 5)
+export type AdminRouteChildren = {
+  //#region authenticated
+  adminDashboardRoute: typeof adminDashboardRoute
+  //#endregion authenticated
 
-// ==== TypeScript Module Augmentation for tanstack/react-router ====
+  //#region unauthenticated
+  adminLoginRoute: typeof adminLoginRoute
+  //#endregion unauthenticated
+}
+//#endregion Admin Route Children
+/**
+ * ? If you face the error of the typescript the children router, you can add the type of the route in the declare module "@tanstack/react-router".
+ */
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    "/_authenticated": {
-      id: "/_authenticated";
-      path: "";
-      fullPath: "/_authenticated";
-      preLoaderRoute: typeof AuthenticatedRouteImport;
-      parentRoute: typeof RootRouteImport;
-    };
+    "/(admin)/dashboard": {
+      id: "/(admin)/dashboard"
+      path: "/dashboard"
+      fullPath: "/dashboard"
+      preLoaderRoute: typeof adminDashboardRoute
+      parentRoute: typeof rootRoute
+    }
 
-    "/_authenticated/": {
-      id: "/_authenticated/";
-      path: "/";
-      fullPath: "/_authenticated/";
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport;
-      parentRoute: typeof AuthenticatedRouteImport;
-    };
-
-    "/admin": {
-      id: "/admin";
-      path: "";
-      fullPath: "/admin";
-      preLoaderRoute: typeof AdminRouteImport;
-      parentRoute: typeof RootRouteImport;
-    };
-
-    "/admin/": {
-      id: "/admin/";
-      path: "/";
-      fullPath: "/admin/";
-      preLoaderRoute: typeof AdminIndexRouteImport;
-      parentRoute: typeof AdminRouteImport;
-    };
-
-    "/client": {
-      id: "/client";
-      path: "";
-      fullPath: "/client";
-      preLoaderRoute: typeof ClientRouteImport;
-      parentRoute: typeof RootRouteImport;
-    };
-
-    "/client/": {
-      id: "/client/";
-      path: "/";
-      fullPath: "/client/";
-      preLoaderRoute: typeof ClientIndexRouteImport;
-      parentRoute: typeof ClientRouteImport;
-    };
+    "/(admin)/login": {
+      id: "/(admin)/login"
+      path: "/login"
+      fullPath: "/login"
+      preLoaderRoute: typeof adminLoginRoute
+      parentRoute: typeof rootRoute
+    }
   }
 }
-
-// ==== Group Children ====
-
-interface AuthenticatedRouteChildren {
-  authenticatedIndexRoute: typeof authenticatedIndexRoute;
-}
-
-interface AdminRouteChildren {
-  adminIndexRoute: typeof adminIndexRoute;
-}
-
-const adminRouteChildren: AdminRouteChildren = {
-  adminIndexRoute,
-};
-
-interface ClientRouteChildren {
-  clientIndexRoute: typeof clientIndexRoute;
-}
-
-const clientRouteChildren: ClientRouteChildren = {
-  clientIndexRoute,
-};
-
-const authenticatedRouteChildren: AuthenticatedRouteChildren = {
-  authenticatedIndexRoute,
-};
-
-const authenticatedRouteWithChildren = authenticatedRoute._addFileChildren(
-  authenticatedRouteChildren,
-);
-
-const adminRouteWithChildren = adminRoute._addFileChildren(adminRouteChildren);
-
-const clientRouteWithChildren =
-  clientRoute._addFileChildren(clientRouteChildren);
-
-// ==== Root Children ====
-interface RootRouteChildren {
-  authenticatedRoute: typeof authenticatedRouteWithChildren;
-  adminRoute: typeof adminRouteWithChildren;
-  clientRoute: typeof clientRouteWithChildren;
-}
-
-const rootRouteChildren: RootRouteChildren = {
-  authenticatedRoute: authenticatedRouteWithChildren,
-  adminRoute: adminRouteWithChildren,
-  clientRoute: clientRouteWithChildren,
-};
-
-// ==== Route Typings for App ====
-
-export interface FileRoutesByFullPath {
-  "/_authenticated": typeof authenticatedRouteWithChildren;
-  "/_authenticated/": typeof authenticatedIndexRoute;
-  "/admin": typeof adminRoute;
-  "/admin/": typeof adminIndexRoute;
-  "/client": typeof clientRoute;
-  "/client/": typeof clientIndexRoute;
-}
-
-export interface FileRoutesByTo {
-  "/_authenticated": typeof authenticatedRouteWithChildren;
-  "/_authenticated/": typeof authenticatedIndexRoute;
-  "/admin": typeof adminRoute;
-  "/admin/": typeof adminIndexRoute;
-  "/client": typeof clientRoute;
-  "/client/": typeof clientIndexRoute;
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/_authenticated": typeof authenticatedRouteWithChildren;
-  "/_authenticated/": typeof authenticatedIndexRoute;
-  "/admin": typeof adminRoute;
-  "/admin/": typeof adminIndexRoute;
-  "/client": typeof clientRoute;
-  "/client/": typeof clientIndexRoute;
-}
-
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths:
-    | "/_authenticated"
-    | "/_authenticated/"
-    | "/admin"
-    | "/admin/"
-    | "/client"
-    | "/client/";
-  fileRoutesByTo: FileRoutesByTo;
-  to:
-    | "/_authenticated"
-    | "/_authenticated/"
-    | "/admin"
-    | "/admin/"
-    | "/client"
-    | "/client/";
-  id:
-    | "__root__"
-    | "/_authenticated"
-    | "/_authenticated/"
-    | "/admin"
-    | "/admin/"
-    | "/client"
-    | "/client/";
-  fileRoutesById: FileRoutesById;
-}
-
-// ==== Export final routeTree ====
-export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
