@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "lint:fix": "biome lint --write ."
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
