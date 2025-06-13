@@ -46,6 +46,9 @@
       "suspicious": {
         "noExplicitAny": "off"
       },
+      "complexity": {
+        "noBannedTypes": "warn"
+      },
       "nursery": {
         "useSortedClasses": {
           "level": "warn",
