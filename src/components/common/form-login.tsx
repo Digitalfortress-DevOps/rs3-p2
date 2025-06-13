@@ -56,7 +56,7 @@ export default function FormLogin({ className, ...props }: UserAuthFormProps) {
   }
 
   return (
-    <div className="">
+    <>
       <div className="flex flex-col items-center gap-8">
         <div className="flex flex-col items-center gap-5">
           <img src={logoLogin} alt="logo-login" />
@@ -122,7 +122,8 @@ export default function FormLogin({ className, ...props }: UserAuthFormProps) {
                 </Link>
               </div>
               <Button
-                className="mt-3 h-11 w-full cursor-pointer bg-btn-login px-3 py-[10px] font-medium text-base text-foreground hover:border hover:border-btn-login hover:text-btn-login"
+                variant="primary"
+                className="mt-3 h-11 w-full cursor-pointer px-3 py-[10px] font-medium text-base"
                 disabled={isLoading}
               >
                 SIGN IN
@@ -131,6 +132,6 @@ export default function FormLogin({ className, ...props }: UserAuthFormProps) {
           </Form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
