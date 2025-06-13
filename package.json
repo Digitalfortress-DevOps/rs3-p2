@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
+    "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write ."
   },
@@ -34,21 +34,14 @@
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@eslint/js": "^9.25.0",
     "@types/node": "^24.0.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.4.1",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.25.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^16.0.0",
     "husky": "^9.1.7",
     "tw-animate-css": "^1.3.4",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5"
   }
 }
