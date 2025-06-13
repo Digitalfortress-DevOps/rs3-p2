@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router"
-import AdminDashboard from "@/features/(admin)/(authenticated)/dashboard"
-import ClientDashboard from "@/features/(client)/(authenticated)/dashboard"
-import { getSubdomain } from "@/utils"
+import { createFileRoute } from "@tanstack/react-router";
+import AdminDashboard from "@/features/(admin)/(authenticated)/dashboard";
+import ClientDashboard from "@/features/(client)/(authenticated)/dashboard";
+import { getSubdomain } from "@/utils";
 
 /**
  * It is protected by the auth middleware.
@@ -12,13 +12,13 @@ import { getSubdomain } from "@/utils"
 
 export const Route = createFileRoute("/(share)/dashboard")({
   component: () => {
-    const subdomain = getSubdomain()
+    const subdomain = getSubdomain();
 
     // ? If the subdomain is not null, it is a client.
     if (subdomain) {
-      return <ClientDashboard />
+      return <ClientDashboard />;
     }
 
-    return <AdminDashboard />
+    return <AdminDashboard />;
   },
-})
+});
