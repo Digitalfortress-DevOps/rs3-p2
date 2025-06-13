@@ -13,6 +13,7 @@
 
 //#region Root Route (This is step 3)
 import { Route as shareDashboardRouteImport } from "./routes/(share)/dashboard";
+import { Route as shareLoginRouteImport } from "./routes/(share)/login";
 import { Route as rootRoute } from "./routes/_root";
 
 //#endregion Root Route
@@ -30,6 +31,13 @@ const shareDashboardRoute = shareDashboardRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
+const shareLoginRoute = shareLoginRouteImport.update({
+  id: "/(share)/login",
+  path: "/login",
+  getParentRoute: () => rootRoute,
+} as any);
+
+// const rootAdminRouteChildren: AdminRouteChildren = {};
 const rootAdminRouteChildren: AdminRouteChildren = {};
 //#endregion Admin Routers
 
@@ -42,6 +50,7 @@ const rootClientRouteChildren: ClientRouteChildren = {
 
 const rootShareRouteChildren: ShareRouteChildren = {
   shareDashboardRoute,
+  shareLoginRoute,
 };
 
 export const routeTree = rootRoute
@@ -55,6 +64,7 @@ export const routeTree = rootRoute
 //#region Share Route Children (This is step 5)
 export type ShareRouteChildren = {
   shareDashboardRoute: typeof shareDashboardRoute;
+  shareLoginRoute: typeof shareLoginRoute;
 };
 //#endregion Share Route Children
 
@@ -93,6 +103,13 @@ declare module "@tanstack/react-router" {
       path: "/dashboard";
       fullPath: "/dashboard";
       preLoaderRoute: typeof shareDashboardRoute;
+      parentRoute: typeof rootRoute;
+    };
+    "/(share)/login": {
+      id: "/(share)/login";
+      path: "/login";
+      fullPath: "/login";
+      preLoaderRoute: typeof shareLoginRoute;
       parentRoute: typeof rootRoute;
     };
     //#endregion share

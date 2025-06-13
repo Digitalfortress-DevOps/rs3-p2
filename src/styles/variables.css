@@ -31,6 +31,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --secondary: oklch(0.6421 0.2049 33.24);
+  --secondary-foreground: oklch(0.2849 0.0986 34.73);
+  --input-login: oklch(0.1776 0 0);
+  --placeholder: oklch(0.5663 0.0632 273.38);
+  --btn-login: oklch(0.7013 0.1916 33.3);
 }
 
 .dark {
