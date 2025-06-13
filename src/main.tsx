@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { StrictMode } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "./routerTree.gen";
 import "./styles/index.css";
@@ -27,13 +28,20 @@ if (!rootElement) {
   throw new Error("Root element not found");
 }
 
+const app = (
+  <HelmetProvider>
+    <Helmet>
+      <title>RS3</title>
+      <meta name="description" content="RS3" />
+      <link rel="icon" type="image/png" href="/favicon.png" />
+    </Helmet>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </HelmetProvider>
+);
+
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </StrictMode>,
-  );
+  root.render(<StrictMode>{app}</StrictMode>);
 }

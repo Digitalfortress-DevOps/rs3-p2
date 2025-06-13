@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
-import { type HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -127,7 +127,7 @@ export default function FormLogin({
                 SIGN IN
               </Button>
               {errorMessage && (
-                <div className="mt-2 text-sm text-red-600">{errorMessage}</div>
+                <div className="mt-2 text-red-600 text-sm">{errorMessage}</div>
               )}
             </form>
           </Form>
