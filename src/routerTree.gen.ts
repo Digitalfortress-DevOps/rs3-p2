@@ -38,13 +38,14 @@ const shareLoginRoute = shareLoginRouteImport.update({
 } as any);
 
 // const rootAdminRouteChildren: AdminRouteChildren = {};
+const rootAdminRouteChildren: AdminRouteChildren = {};
 //#endregion Admin Routers
 
 //#region Client Routers (This is step 4 & 6)
 
-// const rootClientRouteChildren: ClientRouteChildren = {
-//   // clientDashboardRoute,
-// };
+const rootClientRouteChildren: ClientRouteChildren = {
+  // clientDashboardRoute,
+};
 //#endregion Client Routers
 
 const rootShareRouteChildren: ShareRouteChildren = {
@@ -54,8 +55,8 @@ const rootShareRouteChildren: ShareRouteChildren = {
 
 export const routeTree = rootRoute
   ._addFileChildren({
-    // ...rootAdminRouteChildren,
-    // ...rootClientRouteChildren,
+    ...rootAdminRouteChildren,
+    ...rootClientRouteChildren,
     ...rootShareRouteChildren,
   })
   ._addFileTypes();
@@ -68,17 +69,19 @@ export type ShareRouteChildren = {
 //#endregion Share Route Children
 
 //#region Admin Route Children (This is step 5)
-// export type AdminRouteChildren = {
-//   //#region authenticated
-//   //#endregion authenticated
-//   //
-//   //#region unauthenticated
-//   //#endregion unauthenticated
-// };
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
+export type AdminRouteChildren = {
+  //#region authenticated
+  //#endregion authenticated
+  //
+  //#region unauthenticated
+  //#endregion unauthenticated
+};
 //#endregion Admin Route Children
 
 //#region Client Route Children (This is step 5)
-// export type ClientRouteChildren = {};
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
+export type ClientRouteChildren = {};
 //#endregion Client Route Children
 
 /**
