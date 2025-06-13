@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
-import { useState, type HTMLAttributes } from "react";
+import { type HTMLAttributes } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -18,7 +18,11 @@ import { PasswordInput } from "./password-input";
 import logoLogin from "@/assets/images/logo-login.png";
 import { cn } from "@/lib/utils";
 
-type UserAuthFormProps = HTMLAttributes<HTMLFormElement>;
+type UserAuthFormProps = HTMLAttributes<HTMLFormElement> & {
+  onLogin: (values: { email: string; password: string }) => void;
+  isLoading?: boolean;
+  errorMessage?: string;
+};
 
 const formSchema = z.object({
   email: z
@@ -34,9 +38,13 @@ const formSchema = z.object({
       message: "Password must be at least 7 characters long",
     }),
 });
-export default function FormLogin({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
-
+export default function FormLogin({
+  className,
+  onLogin,
+  isLoading,
+  errorMessage,
+  ...props
+}: UserAuthFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,16 +52,6 @@ export default function FormLogin({ className, ...props }: UserAuthFormProps) {
       password: "",
     },
   });
-
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-
-    console.log(data);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
 
   return (
     <>
@@ -67,7 +65,7 @@ export default function FormLogin({ className, ...props }: UserAuthFormProps) {
         <div>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(onLogin)}
               className={cn("grid gap-3", className)}
               {...props}
             >
@@ -79,7 +77,7 @@ export default function FormLogin({ className, ...props }: UserAuthFormProps) {
                     <FormLabel className="text-base text-card">Email</FormLabel>
                     <FormControl>
                       <Input
-                        className="h-12 border-none bg-input-login text-card text-sm placeholder:text-placeholder"
+                        className="input-login-autofill h-12 border-none bg-input-login text-card text-sm placeholder:text-placeholder"
                         placeholder="Enter your email"
                         {...field}
                       />
@@ -128,6 +126,9 @@ export default function FormLogin({ className, ...props }: UserAuthFormProps) {
               >
                 SIGN IN
               </Button>
+              {errorMessage && (
+                <div className="mt-2 text-sm text-red-600">{errorMessage}</div>
+              )}
             </form>
           </Form>
         </div>

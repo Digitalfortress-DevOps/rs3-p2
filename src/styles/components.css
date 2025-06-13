@@ -46,3 +46,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.background-login-admin {
+  background-image: url("@/assets/images/galaxy.png");
+  background-size: "cover";
+  background-position: "center";
+}
