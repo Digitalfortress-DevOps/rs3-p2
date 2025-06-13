@@ -12,8 +12,9 @@
  */
 
 //#region Root Route (This is step 3)
-import { Route as shareDashboardRouteImport } from "./routes/(share)/dashboard"
-import { Route as rootRoute } from "./routes/_root"
+import { Route as shareDashboardRouteImport } from "./routes/(share)/dashboard";
+import { Route as shareLoginRouteImport } from "./routes/(share)/login";
+import { Route as rootRoute } from "./routes/_root";
 
 //#endregion Root Route
 
@@ -28,48 +29,56 @@ const shareDashboardRoute = shareDashboardRouteImport.update({
   id: "/(share)/dashboard",
   path: "/dashboard",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
-const rootAdminRouteChildren: AdminRouteChildren = {}
+const shareLoginRoute = shareLoginRouteImport.update({
+  id: "/(share)/login",
+  path: "/login",
+  getParentRoute: () => rootRoute,
+} as any);
+
+// const rootAdminRouteChildren: AdminRouteChildren = {};
 //#endregion Admin Routers
 
 //#region Client Routers (This is step 4 & 6)
 
-const rootClientRouteChildren: ClientRouteChildren = {
-  // clientDashboardRoute,
-}
+// const rootClientRouteChildren: ClientRouteChildren = {
+//   // clientDashboardRoute,
+// };
 //#endregion Client Routers
 
 const rootShareRouteChildren: ShareRouteChildren = {
   shareDashboardRoute,
-}
+  shareLoginRoute,
+};
 
 export const routeTree = rootRoute
   ._addFileChildren({
-    ...rootAdminRouteChildren,
-    ...rootClientRouteChildren,
+    // ...rootAdminRouteChildren,
+    // ...rootClientRouteChildren,
     ...rootShareRouteChildren,
   })
-  ._addFileTypes()
+  ._addFileTypes();
 
 //#region Share Route Children (This is step 5)
 export type ShareRouteChildren = {
-  shareDashboardRoute: typeof shareDashboardRoute
-}
+  shareDashboardRoute: typeof shareDashboardRoute;
+  shareLoginRoute: typeof shareLoginRoute;
+};
 //#endregion Share Route Children
 
 //#region Admin Route Children (This is step 5)
-export type AdminRouteChildren = {
-  //#region authenticated
-  //#endregion authenticated
-  //
-  //#region unauthenticated
-  //#endregion unauthenticated
-}
+// export type AdminRouteChildren = {
+//   //#region authenticated
+//   //#endregion authenticated
+//   //
+//   //#region unauthenticated
+//   //#endregion unauthenticated
+// };
 //#endregion Admin Route Children
 
 //#region Client Route Children (This is step 5)
-export type ClientRouteChildren = {}
+// export type ClientRouteChildren = {};
 //#endregion Client Route Children
 
 /**
@@ -87,12 +96,19 @@ declare module "@tanstack/react-router" {
 
     //#region share
     "/(share)/dashboard": {
-      id: "/(share)/dashboard"
-      path: "/dashboard"
-      fullPath: "/dashboard"
-      preLoaderRoute: typeof shareDashboardRoute
-      parentRoute: typeof rootRoute
-    }
+      id: "/(share)/dashboard";
+      path: "/dashboard";
+      fullPath: "/dashboard";
+      preLoaderRoute: typeof shareDashboardRoute;
+      parentRoute: typeof rootRoute;
+    };
+    "/(share)/login": {
+      id: "/(share)/login";
+      path: "/login";
+      fullPath: "/login";
+      preLoaderRoute: typeof shareLoginRoute;
+      parentRoute: typeof rootRoute;
+    };
     //#endregion share
   }
 }
