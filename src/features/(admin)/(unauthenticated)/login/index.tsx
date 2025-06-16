@@ -22,9 +22,9 @@ export const AdminLogin = () => {
     mutation.mutate({ email, password });
   };
   return (
-    <div className="relative background-login-admin flex h-full w-full flex-col items-center bg-foreground">
+    <div className="background-login-admin relative flex h-full w-full flex-col items-center bg-foreground">
       <img src={map} alt="map" className="mt-8 w-[50%]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         <FormLogin
           className="w-[400px]"
           onLogin={handleLogin}
